@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RedisService {
+public class JedisService {
     private Jedis jedis;
     private final String KEY;
 
-    public RedisService(String key) {
+    public JedisService(String key) {
         this.jedis = new Jedis("localhost");
         this.KEY = key;
         generateUsers();
