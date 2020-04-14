@@ -14,7 +14,7 @@ public class CsvParser {
             List<String> lines = Files.readAllLines(Paths.get(pathToFile)); //Все линии в файле
             for (String line : lines) {
                 String[] parts = line.split(",", 3);
-                Student student = new Student(parts[0], Integer.parseInt(parts[1]), parts[2]);
+                Student student = new Student(parts[0], Integer.parseInt(parts[1]), parts[2].replaceAll("\"", ""));
                 students.add(student);
             }
         } catch (Exception e) {

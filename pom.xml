@@ -43,6 +43,12 @@
             <artifactId>redisson</artifactId>
             <version>3.12.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.0.2</version>
+        </dependency>
     </dependencies>
 
 </project>
