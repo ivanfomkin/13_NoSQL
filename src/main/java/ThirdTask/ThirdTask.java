@@ -34,7 +34,7 @@ public class ThirdTask {
         System.out.println("List of oldest student courses:" + oldestStudentCourseList);
     }
 
-    private static void parseCsv() { //С помощью этого метода можно залить в MongoDB csv-файл
+    private static void parseCsv() { //С помощью этого метода можно залить в MongoDB csv-файл, оставлю тут на будущее
         Runtime r = Runtime.getRuntime();
         Process p = null;
         String command = "mongoimport --db test --collection students" +
