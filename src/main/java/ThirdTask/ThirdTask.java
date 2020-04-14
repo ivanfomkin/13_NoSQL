@@ -20,6 +20,7 @@ public class ThirdTask {
             document.append("courses", student.getCourses());
             collection.insertOne(document);
         }
+//        parseCsv(); //Альтернативный метод парсинга
         long studentsCount = collection.countDocuments();
         System.out.println("Students count: " + studentsCount);
 
@@ -31,5 +32,21 @@ public class ThirdTask {
         String oldestStudentCourseList = collection.find()
                 .sort(new Document("age", 1)).first().get("courses").toString();
         System.out.println("List of oldest student courses:" + oldestStudentCourseList);
+    }
+
+    private static void parseCsv() { //С помощью этого метода можно залить в MongoDB csv-файл
+        Runtime r = Runtime.getRuntime();
+        Process p = null;
+        String command = "mongoimport --db test --collection students" +
+                "-f name, age, courses" +
+                " --type csv --file " +
+                "F:\\mongo.csv"; //Путь к файлу
+        try {
+            p = r.exec(command);
+            System.out.println("Reading csv into Database");
+
+        } catch (Exception e){
+            System.out.println("Error executing " + command + e.toString());
+        }
     }
 }
