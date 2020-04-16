@@ -6,10 +6,14 @@ import com.mongodb.client.model.BsonField;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import static com.mongodb.client.model.Accumulators.*;
+import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gt;
 
@@ -82,6 +86,55 @@ public class MongoRepository {
         } catch (Exception e) {
             System.out.println("Error! Try to add products and shops and try again later");
         }
+    }
+
+    public void shopStats(String shopName) {
+        if (shopName.equalsIgnoreCase("all")) {
+            for (String shop : this.getAllShops()) {
+                shopStats(shop);
+            }
+        } else {
+            try {
+                List<Bson> request = new ArrayList<>(Arrays.asList( //В этом листе будем формировать запрос к БД
+                        lookup("shops", "name", "products", "products_in_shop"),
+                        unwind("$products_in_shop"),
+                        match(eq("products_in_shop.name", shopName))
+                ));
+
+                Bson groupBson = group("products_in_shop", //Тут пропишем group
+                        sum("productsCount", 1),
+                        avg("averagePrice", "$price"),
+                        max("maxPriceProduct", "$price"),
+                        min("lowerPriceProduct", "$price")
+                );
+                request.add(groupBson);
+                int productsCount = products.aggregate(request).first().getInteger("productsCount");
+                double averagePrice = products.aggregate(request).first().getDouble("averagePrice");
+                int lowerPrice = products.aggregate(request).first().getInteger("lowerPriceProduct");
+                int maxPrice = products.aggregate(request).first().getInteger("maxPriceProduct");
+                //Ниже обновим запрос к БД так, чтобы не было Exception, если не удалить
+                //groupBson, а сразу добавить функцию lt() - ошибка. Как вариант решения - вынести получение
+                //количества продуктов, с ценой более 100 - в отдельный метод
+                request.remove(groupBson);
+                request.add(match(gt("price", 100)));
+                request.add(groupBson);
+                int priceGt100 = products.aggregate(request).first().getInteger("productsCount");
+                System.out.println("\n===================STATS==================");
+                System.out.println("Counts of products in " + shopName + ": " + productsCount);
+                System.out.println("Average price of products in " + shopName + ": " + averagePrice + " rubles");
+                System.out.println("Minimum price in " + shopName + ": " + lowerPrice + " rubles");
+                System.out.println("Maximum price in " + shopName + ": " + maxPrice + " rubles");
+                System.out.println("Products count with price greater than 100 in " + shopName + ": " + priceGt100);
+            } catch (Exception e) {
+                System.out.println("Can't get stats for " + shopName + " now. Try again later");
+            }
+        }
+    }
+
+    private List<String> getAllShops() {
+        List<String> shopNames = new ArrayList<>();
+        shops.find().forEach(t -> shopNames.add(t.getString("name")));
+        return shopNames;
     }
 
     private boolean fieldExist(MongoCollection collection, String fieldName, Object fieldValue) { //Метод проверяет, существует ли поле в коллекци

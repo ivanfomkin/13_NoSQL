@@ -11,11 +11,17 @@ public class FourthTask {
         // Ниже закомментированны команды для проверки кода
 //        repository.addShop("Pyaterochka");
 //        repository.addProduct("Milk", 70);
+//        repository.addProduct("Jus", 92);
+//        repository.addProduct("Chocolate", 70);
 //        repository.addProduct("Coffee", 230);
 //        repository.insertProductToShop("Milk", "Pyaterochka");
 //        repository.insertProductToShop("Coffee", "Pyaterochka");
 //        repository.addProduct("Bacon", 350);
+//        repository.insertProductToShop("Bacon", "Pyaterochka");
+//        repository.insertProductToShop("Chocolate", "Pyaterochka");
+//        repository.insertProductToShop("Jus", "Pyaterochka");
 //        repository.stats();
+//        repository.shopStats("Pyaterochka");
         System.out.println("This is the simple program for shops management");
         printCommandList();
         while (true) {
@@ -38,6 +44,8 @@ public class FourthTask {
                         }
                     } else if (commands.length == 3 && commands[0].equalsIgnoreCase("insert_product")) {
                         repository.insertProductToShop(commands[1], commands[2]);
+                    } else if (commands.length == 2 && commands[0].equalsIgnoreCase("stats")) {
+                        repository.shopStats(commands[1]);
                     } else {
                         System.out.println("Error! Wrong command!");
                         printCommandList();
@@ -55,6 +63,8 @@ public class FourthTask {
                 "\nADD_PRODUCT *product* *price* - create new product (f.e. ADD_PRODUCT Milk 70)" +
                 "\nINSERT_PRODUCT *product* *shop* - insert existing product to existing shop " +
                 "(f.e. INSERT_PRODUCT Milk Spar)" +
-                "\nSTATS - show statistic");
+                "\nSTATS - show statistic for all products" +
+                "\nSTATS ALL - show statistic for all shops" +
+                "\nSTATS *shop name* - show statistic for shop");
     }
 }
