@@ -1,4 +1,4 @@
-package FourthTask;
+package fourthTask;
 
 import com.mongodb.client.*;
 import com.mongodb.client.model.Aggregates;
@@ -88,10 +88,10 @@ public class MongoRepository {
         }
     }
 
-    public void shopStats(String shopName) {
+    public void stats(String shopName) {
         if (shopName.equalsIgnoreCase("all")) {
             for (String shop : this.getAllShops()) {
-                shopStats(shop);
+                stats(shop);
             }
         } else {
             try {

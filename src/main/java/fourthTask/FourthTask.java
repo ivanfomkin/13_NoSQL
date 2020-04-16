@@ -1,4 +1,4 @@
-package FourthTask;
+package fourthTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class FourthTask {
 //        repository.insertProductToShop("Chocolate", "Pyaterochka");
 //        repository.insertProductToShop("Jus", "Pyaterochka");
 //        repository.stats();
-//        repository.shopStats("Pyaterochka");
+//        repository.stats("Pyaterochka");
         System.out.println("This is the simple program for shops management");
         printCommandList();
         while (true) {
@@ -45,7 +45,7 @@ public class FourthTask {
                     } else if (commands.length == 3 && commands[0].equalsIgnoreCase("insert_product")) {
                         repository.insertProductToShop(commands[1], commands[2]);
                     } else if (commands.length == 2 && commands[0].equalsIgnoreCase("stats")) {
-                        repository.shopStats(commands[1]);
+                        repository.stats(commands[1]);
                     } else {
                         System.out.println("Error! Wrong command!");
                         printCommandList();

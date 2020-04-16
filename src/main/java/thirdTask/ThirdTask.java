@@ -1,4 +1,4 @@
-package ThirdTask;
+package thirdTask;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;

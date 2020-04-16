@@ -1,8 +1,7 @@
-package ThirdTask;
+package thirdTask;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bson.types.ObjectId;
 
 @Data
 @AllArgsConstructor
